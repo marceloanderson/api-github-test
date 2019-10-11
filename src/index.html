@@ -32,7 +32,7 @@
                             <div class="search-form">
                                 <form action="#">
                                     <div class="form-group mx-sm-3 mb-2">
-                                        <input type="text" placeholder="Enter user" class="form-control"/>
+                                        <input type="text" placeholder="Enter user" class="form-control" data-bind="value: lastName"  />
                                     </div>
                                     <div class="form-group mx-sm-3 mb-2">
                                         <button class="btn btn-primary btn-block mb-2" type="button">GO</button>
@@ -46,10 +46,9 @@
         </section>
 
         <p>First name: <input data-bind="value: firstName" /></p>
-        <p>Last name: <input data-bind="value: lastName" /></p>
+        <!-- <p>Last name: <input data-bind="value: lastName" /></p> -->
         <p>Full name: <strong data-bind="text: fullName"></strong></p>
     </main>
-
 
     <!-- <footer class="text-muted">
         <div class="container">
