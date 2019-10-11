@@ -9,7 +9,6 @@ const jshint      = require('gulp-jshint')
 const imagemin    = require('gulp-imagemin')
 const sourcemaps  = require('gulp-sourcemaps')
 // const rename      = require('gulp-rename')
-// const jsImport    = require('gulp-js-import')
 const browserSync = require('browser-sync').create()
 const runSequence = require('run-sequence')
 
@@ -29,14 +28,14 @@ gulp.task('clean', () => {
         .pipe(clean())
 })
 
-gulp.task('copy', () => {
+gulp.task('copy', ['browserReload'], () => {
     gulp.src(paths.copy)
         .pipe(gulp.dest(bases.build))
 })
 
 gulp.task('styles', () => {
     return gulp.src(paths.styles)
-        .pipe(sass(sassStyle).on('error', sass.logError))
+        .pipe(sass({'sourcemap=none': true, noCache: true, outputStyle: 'compressed'}).on('error', sass.logError))
         // .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(bases.build + '/css'))
         .pipe(browserSync.stream())
@@ -44,7 +43,6 @@ gulp.task('styles', () => {
 
 gulp.task('lint', function () {
     return gulp.src(paths.scripts)
-        .pipe(jsImport({hideConsole: true}))
         .pipe(babel({presets: ['@babel/env']}))
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
@@ -53,7 +51,6 @@ gulp.task('lint', function () {
 
 gulp.task('scripts', ['browserReload'], () => {
     return gulp.src(paths.scripts)
-        .pipe(jsImport({hideConsole: true}))
         .pipe(babel({presets: ['@babel/env']}))
         .pipe(uglify())
         // .pipe(rename({ suffix: '.min' }))
