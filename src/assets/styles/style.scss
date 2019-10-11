@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+/*===========================
+    1. COMMON css 
+===========================*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Poppins:300,400,500,600,700&display=swap");
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  color: #798795;
+  overflow-X: hidden; }
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+  img {
+    max-width: 100%; }
+  
+  a:focus,
+  input:focus,
+  textarea:focus,
+  button:focus {
+    text-decoration: none;
+    outline: none; }
+  
+  a:focus,
+  a:hover {
+    text-decoration: none; }
+  
+  i,
+  span,
+  a {
+    display: inline-block; }
+  
+  audio,
+  canvas,
+  iframe,
+  img,
+  svg,
+  video {
+    vertical-align: middle; }
