@@ -14,7 +14,7 @@
         <div class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container d-flex justify-content-between">
                 <a href="#" class="navbar-brand d-flex align-items-center">
-                    <strong>Compasso</strong>
+                    <strong>C</strong>
                 </a>
             </div>
         </div>
@@ -26,18 +26,16 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <div class="search-wrapper">
-                            <div class="section-title">
-                                <h3>Search</h3>
+                            <div class="section-title mb-4">
+                                <h3>Buscar usuário</h3>
                             </div>
                             <div class="search-form">
-                                <form action="#">
-                                    <div class="form-group mx-sm-3 mb-2">
-                                        <input type="text" placeholder="Enter user" class="form-control" data-bind="value: lastName"  />
-                                    </div>
-                                    <div class="form-group mx-sm-3 mb-2">
-                                        <button class="btn btn-primary btn-block mb-2" type="button">GO</button>
-                                    </div>
-                                </form>
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <input type="text" placeholder="Insira um usuário" class="form-control" id="username" data-bind="value: userName"  />
+                                </div>
+                                <!-- <div class="form-group mx-sm-3 mb-2">
+                                    <button class="btn btn-primary btn-block mb-2" type="button">GO</button>
+                                </div> -->
                             </div> 
                         </div>
                     </div>
@@ -45,9 +43,10 @@
             </div> <!-- container -->
         </section>
 
-        <p>First name: <input data-bind="value: firstName" /></p>
-        <!-- <p>Last name: <input data-bind="value: lastName" /></p> -->
-        <p>Full name: <strong data-bind="text: fullName"></strong></p>
+        
+<!-- <p>First name: <input data-bind="value: firstName" /></p>
+<p>Last name: <input data-bind="value: lastName" /></p>
+<p>Full name: <strong data-bind="text: fullName"></strong></p> -->
     </main>
 
     <!-- <footer class="text-muted">
