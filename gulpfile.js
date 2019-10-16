@@ -20,7 +20,7 @@ let paths = {
     styles: bases.src + '/assets/styles/*.scss',
     scripts: bases.src + '/assets/scripts/*.js',
     images: bases.src + '/assets/images/**/*',
-    copy: [bases.src + '/*.html', bases.src + '/assets/vendors/**/*', bases.src + '/assets/fonts/**/*']
+    copy: [bases.src + '/*.html', bases.src + '/assets/fonts/**/*']
 }
 
 gulp.task('clean', () => {
@@ -31,6 +31,11 @@ gulp.task('clean', () => {
 gulp.task('copy', ['browserReload'], () => {
     gulp.src(paths.copy)
         .pipe(gulp.dest(bases.build))
+})
+
+gulp.task('vendor', ['browserReload'], () => {
+    gulp.src(bases.src + '/assets/vendor/**/*')
+        .pipe(gulp.dest(bases.build + '/vendor'))
 })
 
 gulp.task('styles', () => {
@@ -82,7 +87,7 @@ gulp.task('browserReload', (cb) => {
 })
 
 gulp.task('dev', () => {
-    runSequence('clean', ['copy', 'styles', 'scripts'], 'images', 'browserSync', 'watch')
+    runSequence('clean', ['copy', 'vendor', 'styles', 'scripts'], 'images', 'browserSync', 'watch')
 })
 
 gulp.task('default', () => {

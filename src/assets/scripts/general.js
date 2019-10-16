@@ -1,9 +1,22 @@
 
-function usersViewModel(){
-    console.log("INIT usersViewModel");
+function generalViewModel(){
+    console.log("INIT generalViewModel");
     let self = this;
 
-    self.searchUser = function(userName){
+    self.userName = ko.observable("");
+    // self.resultUsersData = ko.observableArray([]);
+    self.resultUsersData = ko.observable();
+    self.chosenReposData = ko.observable();
+
+    ko.computed(function() {
+        if(self.userName() != ""){
+            self.goToSearch(self.userName())
+        }
+    }); 
+
+    self.goToSearch = function(userName){
+        self.chosenReposData(null);
+
         const user = userName;
         const endPointUser = "https://api.github.com/search/users?q=";
         const fieldUserName = $('#username');
@@ -18,7 +31,7 @@ function usersViewModel(){
             },
             success: function(data) {
                 console.log(data);
-                self.resultUsersData(data.items);
+                self.resultUsersData(data);
             }, 
             error: function(){
                 console.log("erro");
@@ -28,20 +41,25 @@ function usersViewModel(){
         });
     }
 
-    self.userName = ko.observable("");
-    self.resultUsersData = ko.observableArray([]);
+    self.goToRepos = function(userData) { 
+        console.log(userData);
+        self.resultUsersData(null); // Stop showing a folder
+        // $.get("/mail", { mailId: mail.id }, self.chosenMailData);
 
-    ko.computed(function() {
-        if(self.userName() != ""){
-            self.searchUser(self.userName())
-        }
-    });     
-
-    // self.totalResultUsers = ko.computed(function() {
-    //     let total = 0;
-        
-    //     return total;
-    // }); 
+        $.ajax({
+            url: "https://api.github.com/users/" + userData.login,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                console.log(data);
+                self.chosenReposData(data);
+            }, 
+            error: function(){
+                console.log("erro");
+            }
+        });
+    };    
 }
 
 
@@ -93,7 +111,7 @@ $(function() {
     "use strict";
 
     // READY
-    ko.applyBindings(new usersViewModel());
+    ko.applyBindings(new generalViewModel());
     // ko.applyBindings(new ReservationsViewModel());
 
     // LOAD
