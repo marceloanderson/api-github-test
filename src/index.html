@@ -24,28 +24,6 @@
 
     <main>
 
-		<!-- <h2>Your seat reservations (<span data-bind="text: seats().length"></span>)</h2>
-
-		<table>
-			<thead><tr>
-				<th>Passenger name</th><th>Meal</th><th>Surcharge</th><th></th>
-			</tr></thead>
-			<tbody data-bind="foreach: seats">
-				<tr>
-					<td><input data-bind="value: name" /></td>
-					<td><select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select></td>
-					<td data-bind="text: formattedPrice"></td>
-					<td><a href="#" data-bind="click: $root.removeSeat">Remove</a></td>
-				</tr>    
-			</tbody>
-		</table>
-		
-		<button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button>
-		
-		<h3 data-bind="visible: totalSurcharge() > 0">
-			Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
-		</h3> -->
-
         <section class="search-area">
             <div class="container">
                 <div class="row justify-content-center">
@@ -81,7 +59,9 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="card card-lift--hover shadow border-0">
                                     <div class="card-image">
-                                        <img data-bind="attr: {src: avatar_url}" src="https://avatars1.githubusercontent.com/u/2592391?v=4" class="img-center img-fluid shadow shadow-lg--hover" />
+                                        <a href="#" data-bind="click: $root.goToUser">
+                                            <img data-bind="attr: {src: avatar_url}" src="https://avatars1.githubusercontent.com/u/2592391?v=4" class="img-center img-fluid shadow shadow-lg--hover" />
+                                        </a>
                                     </div>
                                     <div class="card-body">
                                         <h6 class="text-primary text-uppercase" data-bind="text: login"></h6>
@@ -98,60 +78,128 @@
             </section>
         </div>
 
-        <div data-bind="with: chosenReposData">
+        <div data-bind="with: chosenUserData">
             <section class="section profile-area">
                 <div class="container">
-                <div class="card card-profile shadow">
-                    <div class="px-4">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-3 order-lg-2">
-                        <div class="card-profile-image">
-                            <a data-bind="attr: {href: html_url}" target="_blank">
-                            <img data-bind="attr: {src: avatar_url}" class="rounded-circle">
-                            </a>
-                        </div>
-                        </div>
-                        <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
-                        <div class="card-profile-actions py-4 mt-lg-0">
-                            <!-- <a href="#" class="btn btn-sm btn-info mr-4">Connect</a> -->
-                            <a data-bind="attr: {href: html_url}" target="_blank" class="btn btn-sm btn-default float-right">GitHub</a>
-                        </div>
-                        </div>
-                        <div class="col-lg-4 order-lg-1">
-                        <div class="card-profile-stats d-flex justify-content-center">
-                            <div>
-                            <span class="heading" data-bind="text: public_repos">22</span>
-                            <span class="description">Repos</span>
-                            </div>
-                            <div>
-                            <span class="heading" data-bind="text: followers"></span>
-                            <span class="description">Followers</span>
-                            </div>
-                            <div>
-                            <span class="heading" data-bind="text: following"></span>
-                            <span class="description">Following</span>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-5">
-                        <h3 data-bind="text: name"><span class="font-weight-light">, 27</span></h3>
-                        <div class="h6 font-weight-300" data-bind="text: location"></div>
-                        <div class="h6 mt-4" data-bind="text: company"></div>
-                        <div><a data-bind="attr: {href: blog}, text: blog" target="_blank"></a></div>
-                    </div>
-                    <div class="mt-5 py-5 border-top text-center">
+                    <div class="card card-profile shadow">
+                        <div class="px-4">
                         <div class="row justify-content-center">
-                        <div class="col-lg-9">
-                            <p data-bind="text: bio">An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</p>
-                            <!-- <a href="#">Show more</a> -->
+                            <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image">
+                                <a data-bind="attr: {href: html_url}" target="_blank">
+                                <img data-bind="attr: {src: avatar_url}" class="rounded-circle">
+                                </a>
+                            </div>
+                            </div>
+                            <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
+                            <div class="card-profile-actions py-4 mt-lg-0">
+                                <a data-bind="attr: {href: html_url}" target="_blank" class="btn btn-sm btn-default float-right">GitHub</a>
+                            </div>
+                            </div>
+                            <div class="col-lg-4 order-lg-1">
+                            <div class="card-profile-stats d-flex justify-content-center">
+                                <div>
+                                <span class="heading" data-bind="text: public_repos">22</span>
+                                <span class="description">Repos</span>
+                                </div>
+                                <div>
+                                <span class="heading" data-bind="text: followers"></span>
+                                <span class="description">Followers</span>
+                                </div>
+                                <div>
+                                <span class="heading" data-bind="text: following"></span>
+                                <span class="description">Following</span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-5">
+                            <h3 data-bind="text: name"><span class="font-weight-light"></span></h3>
+                            <div class="h6 font-weight-300" data-bind="text: location"></div>
+                            <div class="h6 mt-4" data-bind="text: company"></div>
+                            <div><a data-bind="attr: {href: blog}, text: blog" target="_blank"></a></div>
+                        </div>
+                        <div class="mt-5 py-5 border-top text-center">
+                            <div class="row justify-content-center">
+                            <div class="col-lg-9">
+                                <p data-bind="text: bio"></p>
+                            </div>
+                            </div>
                         </div>
                         </div>
                     </div>
-                    </div>
-                </div>
                 </div>
             </section>
+        </div>
+
+        
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 text-center" data-bind="with: chosenReposData">
+                    <section class="section profile-area profile-mini">
+                        <div class="card card-profile shadow">
+                            <div class="px-4">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 ">
+                                    <div class="card-profile-image">
+                                        <a href="#" data-bind="click: $root.goToUser">
+                                            <img data-bind="attr: {src: avatar_url}" class="rounded-circle">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="card-profile-stats d-flex justify-content-center">
+                                        <div>
+                                            <span class="heading" data-bind="text: public_repos"></span>
+                                            <span class="description">Repos</span>
+                                        </div>
+                                        <div>
+                                            <span class="heading" data-bind="text: followers"></span>
+                                            <span class="description">Followers</span>
+                                        </div>
+                                        <div>
+                                            <span class="heading" data-bind="text: following"></span>
+                                            <span class="description">Following</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <h3 data-bind="text: name"><span class="font-weight-light"></span></h3>
+                                <div class="h6 font-weight-300">
+                                    <span data-bind="text: location"></span> | <span data-bind="text: company"></span>
+                                </div>
+                                <div><a data-bind="attr: {href: blog}, text: blog" target="_blank"></a></div>
+                            </div>
+                            <div class="mt-4 py-4 border-top text-center">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-9">
+                                        <p data-bind="text: bio"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+                <div class="col-lg-8">
+                    <section class="section list-repos" data-bind="foreach: repoItemsData">
+                        <div class="card shadow shadow-lg--hover mb-2">
+                            <div class="card-body">
+                                <div class="pl-4">
+                                    <h5 class="title text-primary"><a data-bind="attr: {href: html_url}, text: name" target="_blank"></a></h5>
+                                    <p data-bind="text: description"></p>
+                                    <div>
+                                        <span class="badge badge-pill badge-primary" data-bind="text: language"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
         </div>
 
     </main>

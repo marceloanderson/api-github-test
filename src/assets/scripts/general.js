@@ -1,12 +1,12 @@
 
 function generalViewModel(){
-    console.log("INIT generalViewModel");
     let self = this;
 
     self.userName = ko.observable("");
-    // self.resultUsersData = ko.observableArray([]);
     self.resultUsersData = ko.observable();
     self.chosenReposData = ko.observable();
+    self.chosenUserData = ko.observable();
+    self.repoItemsData = ko.observableArray([]);
 
     ko.computed(function() {
         if(self.userName() != ""){
@@ -16,6 +16,8 @@ function generalViewModel(){
 
     self.goToSearch = function(userName){
         self.chosenReposData(null);
+        self.chosenUserData(null);
+        self.repoItemsData([]);
 
         const user = userName;
         const endPointUser = "https://api.github.com/search/users?q=";
@@ -30,7 +32,6 @@ function generalViewModel(){
                 fieldUserName.attr('disabled','disabled');
             },
             success: function(data) {
-                console.log(data);
                 self.resultUsersData(data);
             }, 
             error: function(){
@@ -42,9 +43,8 @@ function generalViewModel(){
     }
 
     self.goToRepos = function(userData) { 
-        console.log(userData);
-        self.resultUsersData(null); // Stop showing a folder
-        // $.get("/mail", { mailId: mail.id }, self.chosenMailData);
+        self.resultUsersData(null);
+        self.chosenUserData(null);
 
         $.ajax({
             url: "https://api.github.com/users/" + userData.login,
@@ -52,59 +52,45 @@ function generalViewModel(){
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function(data) {
-                console.log(data);
                 self.chosenReposData(data);
+
+                $.ajax({
+                    url: "https://api.github.com/users/" + userData.login + "/repos",
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(reposData) {
+                        self.repoItemsData(reposData);
+                    }, 
+                    error: function(){
+                        console.log("erro ajax repos");
+                    }
+                });
             }, 
             error: function(){
                 console.log("erro");
             }
         });
-    };    
-}
+    }; 
+    
+    self.goToUser = function(userData) { 
+        self.resultUsersData(null);
+        self.chosenReposData(null);
+        self.repoItemsData([]);
 
-
-// Class to represent a row in the seat reservations grid
-function SeatReservation(name, initialMeal) {
-    var self = this;
-    self.name = name;
-    self.meal = ko.observable(initialMeal);
-
-    self.formattedPrice = ko.computed(function() {
-        var price = self.meal().price;
-        return price ? "$" + price.toFixed(2) : "None";        
-    });    
-}
-
-// Overall viewmodel for this screen, along with initial state
-function ReservationsViewModel() {
-    var self = this;
-
-    // Non-editable catalog data - would come from the server
-    self.availableMeals = [
-        { mealName: "Standard (sandwich)", price: 0 },
-        { mealName: "Premium (lobster)", price: 34.95 },
-        { mealName: "Ultimate (whole zebra)", price: 290 }
-    ];    
-
-    // Editable data
-    self.seats = ko.observableArray([
-        new SeatReservation("Steve", self.availableMeals[0]),
-        new SeatReservation("Bert", self.availableMeals[0])
-    ]);
-
-    // Computed data
-    self.totalSurcharge = ko.computed(function() {
-       var total = 0;
-       for (var i = 0; i < self.seats().length; i++)
-           total += self.seats()[i].meal().price;
-       return total;
-    });    
-
-    // Operations
-    self.addSeat = function() {
-        self.seats.push(new SeatReservation("", self.availableMeals[0]));
-    }
-    self.removeSeat = function(seat) { self.seats.remove(seat) }
+        $.ajax({
+            url: "https://api.github.com/users/" + userData.login,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                self.chosenUserData(data);
+            }, 
+            error: function(){
+                console.log("erro");
+            }
+        });
+    };  
 }
 
 $(function() {
@@ -112,10 +98,4 @@ $(function() {
 
     // READY
     ko.applyBindings(new generalViewModel());
-    // ko.applyBindings(new ReservationsViewModel());
-
-    // LOAD
-    $(window).load(function () {
-        // 
-    });
 });
